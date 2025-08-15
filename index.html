@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="dark" />
+  <title>Приглашение на День рождения Аябека</title>
+  <style>
+    :root{
+      --bg: #000;
+      --fg: #f6f6f6;
+      --muted: #a3a3a3;
+      --grid: rgba(255,255,255,.12);
+      --card: rgba(255,255,255,.06);
+      --card-2: rgba(255,255,255,.04);
+      --emerald: #22c55e; /* зелёный */
+      --emerald-2: #10b981;
+      --ring: rgba(34,197,94,.50);
+      --shadow: 0 10px 40px rgba(16,185,129,.20);
+      --radius: 22px;
+      --elev: drop-shadow(0 10px 35px rgba(16,185,129,.18));
+    }
+    html,body{height:100%}
+    body{
+      margin:0; background:var(--bg); color:var(--fg);
+      font: 16px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Noto Sans", Arial, "Apple Color Emoji","Segoe UI Emoji";
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing:grayscale;
+      scroll-behavior:smooth;
+    }
+    .grid-bg{ position:fixed; inset:0; pointer-events:none; opacity:.08;
+      background-image: linear-gradient(to right, var(--grid) 1px, transparent 1px),
+                        linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+      background-size: 24px 24px; animation: gridFade 14s linear infinite alternate;
+    }
+    @keyframes gridFade{ from{opacity:.06} to{opacity:.10} }
+
+    .glow{ position:fixed; inset:0; pointer-events:none; }
+    .glow::before, .glow::after{ content:""; position:absolute; filter: blur(60px); opacity:.7; border-radius:50%;
+      background: radial-gradient(circle at 50% 50%, var(--ring), transparent 60%);
+      animation: floaty 9s ease-in-out infinite;
+    }
+    .glow::before{ width:520px; height:520px; left:50%; top:-140px; transform:translateX(-50%); }
+    .glow::after{ width:360px; height:360px; right:-120px; bottom:-40px; opacity:.45; animation-delay: -2.5s; }
+
+    @keyframes floaty{ 0%{ transform:translate(-50%,0) } 50%{ transform:translate(-50%,-14px) } 100%{ transform:translate(-50%,0) } }
+
+    .container{ position:relative; min-height:100dvh; max-width:720px; margin:0 auto; padding:20px 18px 28px; }
+    .badge{ display:inline-flex; align-items:center; gap:8px; font-size:12px; letter-spacing:.4px; text-transform:uppercase;
+      border:1px solid color-mix(in oklab, var(--emerald) 48%, transparent);
+      background: color-mix(in oklab, var(--emerald) 16%, transparent);
+      padding:8px 12px; border-radius:999px; backdrop-filter: blur(6px);
+    }
+    .row{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    .actions{ display:flex; gap:8px; }
+    .iconbtn{ border:1px solid rgba(255,255,255,.12); background:var(--card); padding:10px; border-radius:999px; cursor:pointer; }
+    .iconbtn:active{ transform:scale(.97) }
+
+    h1{ margin:16px 0 0; font-size:40px; line-height:1.12; letter-spacing:.3px; }
+    @media (max-width:420px){ h1{ font-size:34px } }
+    .h-accent{ background:linear-gradient(90deg, var(--emerald), #6ee7b7, var(--emerald)); -webkit-background-clip:text; background-clip:text; color:transparent; text-shadow:0 0 24px rgba(16,185,129,.55); }
+
+    /* HERO */
+    .hero{ height:100svh; min-height:100dvh; display:flex; flex-direction:column; justify-content:center; }
+    .hero .sub{ margin-top:12px; font-size:16px; color:#c3f6db; opacity:.9 }
+    .hero .cta{ margin-top:16px; display:flex; gap:10px; flex-wrap:wrap }
+    .scroll-down{ margin-top:26px; display:inline-flex; align-items:center; gap:10px; opacity:.8; color: var(--emerald); text-decoration: none; }
+    .scroll-down .chev{ animation: bounce 1.6s ease-in-out infinite }
+    @keyframes bounce{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(6px) } }
+
+    /* CARDS */
+    .card{ margin-top:18px; background:var(--card); border:1px solid rgba(34,197,94,.22); border-radius:var(--radius); box-shadow: var(--shadow); padding:18px; transform: translateY(6px) scale(.99); opacity:0; transition: .6s ease; }
+    .card.in{ transform:none; opacity:1; filter: var(--elev); }
+    .card + .card{ margin-top:16px; }
+    .line{ display:flex; align-items:flex-start; gap:12px; }
+    .line + .line{ margin-top:12px; }
+    .muted{ color:var(--muted); font-size:13.5px; }
+
+    .timer{ margin-top:14px; display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+    .tbox{ text-align:center; border:1px solid rgba(34,197,94,.26); border-radius:16px; padding:12px 8px; background:#0b0b0b;
+      transition: transform .3s ease; }
+    .tbox:active{ transform: scale(.98) }
+    .tval{ font-variant-numeric: tabular-nums; font-size:22px; font-weight:800; }
+    .tlabel{ margin-top:2px; font-size:10px; text-transform:uppercase; letter-spacing:.6px; color:#82f7b4; opacity:.9; }
+
+    .btns{ margin-top:14px; display:flex; flex-wrap:wrap; gap:10px; }
+    .btn{ --b: rgba(255,255,255,.14); display:inline-flex; align-items:center; gap:8px; padding:12px 14px; border-radius:16px; border:1px solid var(--b); background:var(--card-2); cursor:pointer; text-decoration:none; color:var(--fg); font-weight:600 }
+    .btn.accent{ --b: color-mix(in oklab, var(--emerald) 48%, transparent); background: color-mix(in oklab, var(--emerald) 18%, transparent); }
+    .btn:active{ transform:scale(.99) }
+
+    .footer{ margin:28px 0 10px; text-align:center; font-size:12px; color:#9ed9b6; opacity:.8; }
+
+    /* small icons */
+    .i{ width:18px; height:18px; display:inline-block; flex:0 0 18px; }
+    .i svg{ width:100%; height:100%; display:block; }
+
+    /* Dresscode looks */
+    .looks{ margin-top:14px; display:grid; grid-template-columns: repeat(2, 1fr); gap:10px; }
+    .look{ position:relative; overflow:hidden; border-radius:16px; border:1px solid rgba(255,255,255,.12); background:#0a0a0a; }
+    .look img{ width:100%; height:170px; object-fit:cover; display:block; transform: translateY(0) scale(1.02); animation: imgFloat 6s ease-in-out infinite; }
+    .look:nth-child(2) img{ animation-delay: -3s }
+    @keyframes imgFloat{ 0%,100%{ transform:translateY(0) scale(1.02)} 50%{ transform:translateY(-6px) scale(1.03)} }
+    .look figcaption{ position:absolute; left:8px; bottom:8px; font-size:12px; background:rgba(0,0,0,.55); padding:4px 8px; border-radius:999px; border:1px solid rgba(255,255,255,.12); }
+
+    /* Reveal utility for any element */
+    .reveal{ opacity:0; transform: translateY(12px); transition: .7s ease; }
+    .reveal.in{ opacity:1; transform:none }
+  </style>
+</head>
+<body>
+  <div class="grid-bg"></div>
+  <div class="glow"></div>
+  <main class="container">
+    <!-- HERO (100dvh) -->
+    <section class="hero" id="hero">
+      <div class="row reveal in">
+        <div class="badge"><span class="i" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11l2 2 4-4"/><path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0"/></svg>
+        </span>Приглашение</div>
+        <div class="actions">
+          <button class="iconbtn" id="shareBtn" title="Поделиться" aria-label="Поделиться">
+            <span class="i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v14"/></svg></span>
+          </button>
+        </div>
+      </div>
+
+      <h1 class="reveal"><span class="h-accent">Приглашение на День рождения Аябека</span></h1>
+      <div class="sub reveal" id="heroSub">23 сентября 2025 года, 20:00 • Ария Степи (Караоке Залы)</div>
+
+      <div class="cta reveal">
+        <a class="btn accent" id="gisLink" target="_blank" rel="noopener">
+          <span class="i" aria-hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/></svg></span>
+          Открыть в 2ГИС
+        </a>
+        <button class="btn" id="icsHero">Добавить в календарь</button>
+      </div>
+
+      <a href="#details" class="scroll-down reveal" aria-label="Прокрутить к деталям">
+        <span class="i chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+        Смотреть детали
+      </a>
+    </section>
+
+    <!-- DETAILS -->
+    <section class="card reveal" id="details">
+      <div class="line"><span class="i" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+      </span>
+        <div>
+          <div id="dateText">23 сентября 2025 года, 20:00</div>
+          <div class="muted" id="weekday">Можно опаздывать</div>
+        </div>
+      </div>
+      <div class="timer" aria-label="Таймер до начала">
+        <div class="tbox"><div class="tval" id="d">0</div><div class="tlabel">дн</div></div>
+        <div class="tbox"><div class="tval" id="h">0</div><div class="tlabel">ч</div></div>
+        <div class="tbox"><div class="tval" id="m">0</div><div class="tlabel">мин</div></div>
+        <div class="tbox"><div class="tval" id="s">0</div><div class="tlabel">с</div></div>
+      </div>
+    </section>
+
+    <section class="card reveal">
+      <div class="line"><span class="i" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12S3 16 3 10a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      </span>
+        <div>
+          <div class="" id="placeTitle">Ария Степи (Караоке Залы)</div>
+          <div class="muted" id="address">Улица Достык, 4</div>
+        </div>
+      </div>
+      <div class="btns">
+        <a class="btn accent" id="gisLink2" target="_blank" rel="noopener">Открыть в 2ГИС</a>
+        <button class="btn" id="copyBtn">Скопировать адрес</button>
+      </div>
+    </section>
+
+    <section class="card reveal">
+      <div class="line"><span class="i" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 7.5c-1.4 1.4-3.7 1.4-5.1 0-1.4-1.4-1.4-3.7 0-5.1"/><path d="M8 12l-5 9 9-5 8-8-4-4-8 8z"/></svg></span>
+        <div>
+          <div class="muted">Дресскод</div>
+          <div>чёрная одежда с элементами зелёного</div>
+        </div>
+      </div>
+      <div class="looks" aria-label="Примеры образов">
+        <figure class="look"><img src="img/example-look-1.png" alt="Пример образа 1 — чёрный + зелёный"/><figcaption>Пример 1</figcaption></figure>
+        <figure class="look"><img src="img/example-look-2.png" alt="Пример образа 2 — чёрный + зелёный"/><figcaption>Пример 2</figcaption></figure>
+      </div>
+    </section>
+
+    <section class="card reveal" style="border-color: rgba(255,255,255,.16);">
+      <div class="line"><span class="i" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20v-4"/><path d="M18 20v-8"/><path d="M6 20v-2"/></svg></span>
+        <div class="muted" id="note">С вас ничего не нужно — только настроение. Можно опаздывать :)</div>
+      </div>
+      <div class="btns">
+        <button class="btn accent" id="icsBtn">Добавить в календарь (.ics)</button>
+        <a class="btn" id="gcalBtn" target="_blank" rel="noopener">Открыть в Google Календаре</a>
+      </div>
+    </section>
+
+    <div class="footer">Сделано с любовью • Чёрно‑зелёная тема</div>
+  </main>
+
+  <script>
+    // ---- Конфигурация события ----
+    const EVENT = {
+      title: 'Приглашение на День рождения Аябека',
+      dateText: '23 сентября 2025 года',
+      timeText: '20:00',
+      startISO: '2025-09-23T20:00:00+05:00', // Asia/Almaty
+      durationHours: 3,
+      place: 'Ария Степи (Караоке Залы)',
+      address: 'Улица Достык, 4',
+      link2gis: 'https://2gis.kz/astana/firm/70000001099940788?m=71.407391%2C51.127731%2F16.8',
+      dressMain: 'чёрная одежда',
+      dressAccent: 'элементы зелёного',
+      note: 'С вас ничего не нужно — только настроение. Можно опаздывать :)'
+    };
+
+    // ---- Тексты / ссылки ----
+    const setText = (id, v) => document.getElementById(id).textContent = v;
+    setText('dateText', `${EVENT.dateText}, ${EVENT.timeText}`);
+    document.getElementById('heroSub').textContent = `${EVENT.dateText}, ${EVENT.timeText} • ${EVENT.place}`;
+    setText('placeTitle', EVENT.place);
+    setText('address', EVENT.address);
+    setText('note', EVENT.note);
+    const g1 = document.getElementById('gisLink'); g1.href = EVENT.link2gis;
+    const g2 = document.getElementById('gisLink2'); g2.href = EVENT.link2gis;
+
+    // День недели (ru)
+    (function(){
+      const w = ['воскресенье','понедельник','вторник','среда','четверг','пятница','суббота'];
+      const d = new Date(EVENT.startISO);
+      const wd = w[d.getDay()];
+      const wk = document.getElementById('weekday');
+      wk.textContent = `${wd[0].toUpperCase()}${wd.slice(1)} • Можно опаздывать`;
+    })();
+
+    // ---- Таймер ----
+    (function countdown(){
+      const start = new Date(EVENT.startISO).getTime();
+      const dEl = document.getElementById('d');
+      const hEl = document.getElementById('h');
+      const mEl = document.getElementById('m');
+      const sEl = document.getElementById('s');
+      function tick(){
+        const now = Date.now();
+        const s = Math.max(0, Math.floor((start - now)/1000));
+        const days = Math.floor(s/86400);
+        const hours = Math.floor((s%86400)/3600);
+        const mins = Math.floor((s%3600)/60);
+        const secs = s%60;
+        dEl.textContent = days; hEl.textContent = hours; mEl.textContent = mins; sEl.textContent = secs;
+      }
+      tick();
+      setInterval(tick, 1000);
+    })();
+
+    // ---- Поделиться ----
+    document.getElementById('shareBtn').addEventListener('click', async () => {
+      const data = {
+        title: EVENT.title,
+        text: `${EVENT.title}
+${EVENT.dateText} ${EVENT.timeText}
+${EVENT.place}, ${EVENT.address}
+Дресскод: ${EVENT.dressMain} + ${EVENT.dressAccent}`,
+        url: location.href
+      };
+      if (navigator.share) { try { await navigator.share(data); } catch(e){} }
+      else { copyAddress(); }
+    });
+
+    // ---- Копирование адреса ----
+    function copyAddress(){
+      const text = `${EVENT.place}, ${EVENT.address}`;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => alert('Адрес скопирован!')).catch(() => fallback());
+      } else fallback();
+      function fallback(){
+        const ta = document.createElement('textarea');
+        ta.value = text; document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); alert('Адрес скопирован!'); } catch(e){ alert('Не удалось скопировать :('); }
+        ta.remove();
+      }
+    }
+    document.getElementById('copyBtn').addEventListener('click', copyAddress);
+
+    // ---- .ics генерация (кнопки в hero и внизу) ----
+    function toICS(){
+      const start = new Date(EVENT.startISO);
+      const end = new Date(start.getTime() + EVENT.durationHours * 3600 * 1000);
+      const fmt = d => `${d.getUTCFullYear()}${String(d.getUTCMonth()+1).padStart(2,'0')}${String(d.getUTCDate()).padStart(2,'0')}T${String(d.getUTCHours()).padStart(2,'0')}${String(d.getUTCMinutes()).padStart(2,'0')}${String(d.getUTCSeconds()).padStart(2,'0')}Z`;
+      const dtstamp = fmt(new Date());
+      const uid = Math.random().toString(36).slice(2) + '@invite.local';
+      const body = [
+        'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Birthday Invite//RU','CALSCALE:GREGORIAN','METHOD:PUBLISH','BEGIN:VEVENT',
+        `DTSTART:${fmt(start)}`,`DTEND:${fmt(end)}`,`DTSTAMP:${dtstamp}`,`UID:${uid}`,
+        `SUMMARY:${EVENT.title}`,`LOCATION:${EVENT.place}, ${EVENT.address}`,
+        `DESCRIPTION:${EVENT.note} Дресскод: ${EVENT.dressMain}, ${EVENT.dressAccent}.`,
+        `URL;VALUE=URI:${EVENT.link2gis}`,'END:VEVENT','END:VCALENDAR'
+      ].join('');
+      const blob = new Blob([body], {type:'text/calendar;charset=utf-8'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'birthday-invite.ics'; a.click();
+      setTimeout(()=>URL.revokeObjectURL(url), 800);
+    }
+    document.getElementById('icsBtn').addEventListener('click', toICS);
+    document.getElementById('icsHero').addEventListener('click', toICS);
+
+    // ---- Google Calendar ----
+    (function initGCal(){
+      const start = new Date(EVENT.startISO);
+      const end = new Date(start.getTime() + EVENT.durationHours * 3600 * 1000);
+      const fmt = d => `${d.getUTCFullYear()}${String(d.getUTCMonth()+1).padStart(2,'0')}${String(d.getUTCDate()).padStart(2,'0')}T${String(d.getUTCHours()).padStart(2,'0')}${String(d.getUTCMinutes()).padStart(2,'0')}${String(d.getUTCSeconds()).padStart(2,'0')}Z`;
+      const params = new URLSearchParams({ action: 'TEMPLATE', text: EVENT.title, dates: `${fmt(start)}/${fmt(end)}`, details: `${EVENT.note} Дресскод: ${EVENT.dressMain}, ${EVENT.dressAccent}.`, location: `${EVENT.place}, ${EVENT.address}` });
+      document.getElementById('gcalBtn').href = `https://calendar.google.com/calendar/render?${params.toString()}`;
+    })();
+
+    // ---- Reveal on scroll ----
+    (function reveal(){
+      const els = document.querySelectorAll('.reveal, .card');
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+      }, { threshold: .2 });
+      els.forEach(el=>io.observe(el));
+    })();
+  </script>
+</body>
+</html>
